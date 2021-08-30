@@ -1,0 +1,207 @@
+{
+  "version": 2,
+  "projects": {
+    "acme": {
+      "root": "apps/acme",
+      "sourceRoot": "apps/acme/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/acme",
+            "index": "apps/acme/src/index.html",
+            "main": "apps/acme/src/main.tsx",
+            "polyfills": "apps/acme/src/polyfills.ts",
+            "tsConfig": "apps/acme/tsconfig.app.json",
+            "assets": [
+              "apps/acme/src/favicon.ico",
+              "apps/acme/src/assets"
+            ],
+            "styles": ["apps/acme/src/styles.css"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/acme/src/environments/environment.ts",
+                  "with": "apps/acme/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "acme:build",
+            "hmr": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "acme:build:production",
+              "hmr": false
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/acme/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/acme"],
+          "options": {
+            "jestConfig": "apps/acme/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "acme-e2e": {
+      "root": "apps/acme-e2e",
+      "sourceRoot": "apps/acme-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/acme-e2e/cypress.json",
+            "devServerTarget": "acme:serve",
+            "tsConfig": "apps/acme-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "acme:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/acme-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "feature": {
+      "root": "libs/feature",
+      "sourceRoot": "libs/feature/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/feature",
+            "tsConfig": "libs/feature/tsconfig.lib.json",
+            "project": "libs/feature/package.json",
+            "entryFile": "libs/feature/src/index.ts",
+            "external": ["react/jsx-runtime"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/feature/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/feature/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/feature"],
+          "options": {
+            "jestConfig": "libs/feature/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "page": {
+      "root": "libs/page",
+      "sourceRoot": "libs/page/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/page",
+            "tsConfig": "libs/page/tsconfig.lib.json",
+            "project": "libs/page/package.json",
+            "entryFile": "libs/page/src/index.ts",
+            "external": ["react/jsx-runtime"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/page/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/page/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/page"],
+          "options": {
+            "jestConfig": "libs/page/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "css",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "acme"
+}
