@@ -1,16 +1,27 @@
-import { ReactComponent as Logo } from './logo.svg';
-import star from './star.svg';
+import LogoSvg from './logo.svg';
+import StarSvg from './star.svg';
 
+export const Logo = () => <img src={LogoSvg} alt="Logo" />;
+export const Star = () => <img src={StarSvg} alt="Star" />;
 
 /* eslint-disable-next-line */
-export interface FeatureProps {}
+export interface FeatureProps {
+  shape: 'logo' | 'star';
+}
 
 export function Feature(props: FeatureProps) {
   return (
     <div>
-      <Logo />
+      {(props.shape === 'logo') ? (
+        <Logo />
+      ):(
+        <Star />
+      )}
     </div>
   );
 }
 
 export default Feature;
+
+
+
